@@ -1,7 +1,27 @@
 package com.mycompany.main;
 import java.util.*;
 public class Main {
-
+    public static void showStatistics(String [] User_names,String [] Account_statuses,ArrayList<String> Transaction_statuses,ArrayList<Long>Transaction_amounts){
+        int Active_Users = 0;
+        int  blocked_accounts = 0;
+        for(int i=0;i<Account_statuses.length;i++){
+            if(Account_statuses[i].equalsIgnoreCase("active"))
+                Active_Users++;
+            else if (Account_statuses[i].equalsIgnoreCase("block"))
+                blocked_accounts++;
+        }
+        System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
+    }
+        int successful_transactions = 0;
+        int failed_transactions = 0;
+        long  amountofsuccessfultransfers = 0;
+        for(int i=0;i<Transaction_statuses.size();i++){
+            if(Transaction_statuses.get(i).equalsIgnoreCase("successful")) {
+                successful_transactions++;
+                amountofsuccessfultransfers += Transaction_amounts.get(i);
+            }else if (Transaction_statuses.get(i).equalsIgnoreCase("faild"))
+                failed_transactions++;
+        }
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -28,7 +48,7 @@ public class Main {
                 int Admin_operation = input.nextInt();
                 switch (Admin_operation){
                     case 1:
-                        //Show Statistics;
+                        showStatistics(User_names,Account_statuses,Transaction_statuses,Transaction_amounts);
                         break;
                     case 2:
                         //Search User;
