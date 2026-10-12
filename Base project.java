@@ -1,7 +1,7 @@
 package com.mycompany.main;
 import java.util.*;
 public class Main {
-    public static void showStatistics(String [] User_names,String [] Account_statuses,ArrayList<String> Transaction_statuses,ArrayList<Long>Transaction_amounts){
+    public static void showStatistics(String [] User_names,String [] Account_statuses,ArrayList<ArrayList<String>> Transaction_statuses,ArrayList<ArrayList<Long>>Transaction_amounts){
         int Active_Users = 0;
         int  blocked_accounts = 0;
         for(int i=0;i<Account_statuses.length;i++){
@@ -10,18 +10,32 @@ public class Main {
             else if (Account_statuses[i].equalsIgnoreCase("block"))
                 blocked_accounts++;
         }
-        System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
-    }
         int successful_transactions = 0;
         int failed_transactions = 0;
         long  amountofsuccessfultransfers = 0;
-        for(int i=0;i<Transaction_statuses.size();i++){
-            if(Transaction_statuses.get(i).equalsIgnoreCase("successful")) {
-                successful_transactions++;
-                amountofsuccessfultransfers += Transaction_amounts.get(i);
-            }else if (Transaction_statuses.get(i).equalsIgnoreCase("faild"))
-                failed_transactions++;
+        for(int j=0;j<Transaction_statuses.size();j++)
+            for(int i=0;i<Transaction_statuses.get(j).size();i++){
+                if(Transaction_statuses.get(j).get(i).equalsIgnoreCase("successful")) {
+                    successful_transactions++;
+                    amountofsuccessfultransfers += Transaction_amounts.get(j).get(i);
+                }else if (Transaction_statuses.get(j).get(i).equalsIgnoreCase("faild"))
+                    failed_transactions++;
         }
+
+        System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
+    }
+    public static void searchUser(String Search_User,String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses,ArrayList<ArrayList<Long>> Transaction_amounts){
+        int search_index =0;
+        for(int i =0;i<User_IDs.length;i++){
+            if(Search_User.equals(User_IDs[i])||Search_User.equalsIgnoreCase(User_names[i])||Search_User.equals(User_email_addresses[i])||Search_User.equals(Phone_numbers[i])){
+                search_index=i;
+            }
+        }
+        System.out.print("User ID: "+User_IDs[search_index]+"\nName: "+User_names[search_index]+"\nPhone number: "+Phone_numbers[search_index]+"\nEmail address: "+User_email_addresses[search_index]+"\n User Balance: "+Balances[search_index]+"\nAccount Statuses: "+Account_statuses[search_index]+"\nTransaction amounts: ");
+        for(int i=0;i<Transaction_amounts.get(search_index).size();i++){
+            System.out.print(Transaction_amounts.get(search_index).get(i)+" , ");
+        }
+    }
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -32,13 +46,18 @@ public class Main {
         String [] User_passwords = {"Ahmed10","Mohammed20","Ali30","Malak40","Marawan50","Yasmeen60","Eyad70","Marym80","Hana90","Youssef10"};
         long [] Balances ={5000,1500,2000,400,6500,2300,4050,3500,10000,1800};
         String [] Account_statuses = {"Active","Block","Active","Active","Active","Active","Active","Active","Block","Active"};
-        String [][] Favorite_contacts = new String[10][10];
+        String [][] Favorite_contacts = new String[User_IDs.length][User_IDs.length-1];
         Favorite_contacts[0][0]="01198765431";
-        ArrayList<String> Transaction_IDs = new ArrayList<String>();
-        ArrayList<String> Transaction_senders = new ArrayList<String>();
-        ArrayList<String> Transaction_receivers = new ArrayList<String>();
-        ArrayList<Long> Transaction_amounts = new ArrayList<Long>();
-        ArrayList<String> Transaction_statuses = new ArrayList<String>();
+        ArrayList<ArrayList<String>> Transaction_IDs = new ArrayList<>();
+        Transaction_IDs.add(new ArrayList<String>());
+        ArrayList<ArrayList<String>> Transaction_senders = new ArrayList<>();
+        Transaction_senders.add(new ArrayList<String>());
+        ArrayList<ArrayList<String>> Transaction_receivers = new ArrayList<>();
+        Transaction_receivers.add(new ArrayList<String>());
+        ArrayList<ArrayList<Long>> Transaction_amounts = new ArrayList<>();
+        Transaction_amounts.add(new ArrayList<Long>());
+        ArrayList<ArrayList<String>> Transaction_statuses = new ArrayList<>();
+        Transaction_statuses.add(new ArrayList<String>());
         System.out.println("========== QUICK PAY ==========");
         System.out.println("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
         int main_menu = input.nextInt();
@@ -51,7 +70,9 @@ public class Main {
                         showStatistics(User_names,Account_statuses,Transaction_statuses,Transaction_amounts);
                         break;
                     case 2:
-                        //Search User;
+                        System.out.println("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
+                        String Search_User = input.next();
+                        searchUser(Search_User,User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses,Transaction_amounts);
                         break;
                     case 3:
                         //View All Users;
