@@ -71,7 +71,7 @@ public class Main {
 
         System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
     }
-    public static int searchUser(String Search_User,String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
+    public static int searchUser(String Search_User,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
         int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
             if(Search_User.equals(User_IDs[i])||Search_User.equalsIgnoreCase(User_names[i])||Search_User.equals(User_email_addresses[i])||Search_User.equals(Phone_numbers[i])){
@@ -80,12 +80,12 @@ public class Main {
         }
         return search_index;
     }
-    public static void viewAllUsers(String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses){
+    public static void viewAllUsers(int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses){
         for(int i=0;i< User_IDs.length;i++){
             System.out.println("User: "+(1+i)+"\nUser ID: " + User_IDs[i] + "\nName: " + User_names[i] + "\nPhone number: " + Phone_numbers[i] + "\nEmail address: " + User_email_addresses[i] + "\nUser Balance: " + Balances[i] + "\nAccount Statuses: " + Account_statuses[i]);
         }
     }
-    public static int viewUserDetails (String specific_user,String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
+    public static int viewUserDetails (String specific_user,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
         int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
             if(specific_user.equals(User_IDs[i])||specific_user.equalsIgnoreCase(User_names[i])||specific_user.equals(User_email_addresses[i])||specific_user.equals(Phone_numbers[i])){
@@ -99,7 +99,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         String Admin_email = "Admin404@gmail.com" ;
         String Admin_password = "Admin15_19" ;
-        String [] User_IDs = {"5010","5020","5030","5040","5050","5060","5070","5080","5090","6010"};
+        int [] User_IDs = {5010,5020,5030,5040,5050,5060,5070,5080,5090,6010};
         String [] User_names = {"Ahmed","Mohammed","Ali","Malak","Marawan","Yasmeen","Eyad","Marym","Hana","youssef"};
         String [] User_email_addresses = {"ahmed@gmail.com","mahammed@gmail.com","ali@gmail.com","malak@gmail.com","marawan@gmail.com","yasmeen@gmail.com","eyad@gmail.com","marym@gmail.com","hana@gmail.com","youssef@gmail.com"};
         String [] Phone_numbers = {"01134567891","01198765431","01198654732","01153784952","01137895478","01274638190","01289736489","01276483286","01239748290","01244472983"};
@@ -108,7 +108,8 @@ public class Main {
         String [] Account_statuses = {"Active","Block","Active","Active","Active","Active","Active","Active","Block","Active"};
         String [][] Favorite_contacts = new String[User_IDs.length][User_IDs.length-1];
         Favorite_contacts[0][0]="01198765431";
-        //ArrayList<Integer>[] matrix = new ArrayList[outerSize];
+        //ArrayList<datatype>[] ArrayName = new ArrayList[outerSize];
+        //Array List to be unlimited size, cuse we don't know many transaction will the user do.
         ArrayList<String>[] Transaction_IDs = new ArrayList[User_IDs.length];
         ArrayList<String>[] Transaction_senders = new ArrayList[User_IDs.length];
         ArrayList<String>[] Transaction_receivers = new ArrayList[User_IDs.length];
