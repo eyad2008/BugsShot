@@ -25,17 +25,25 @@ public class Main {
         System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
     }
     public static void searchUser(String Search_User,String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses,ArrayList<ArrayList<Long>> Transaction_amounts){
-        int search_index =0;
+        int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
             if(Search_User.equals(User_IDs[i])||Search_User.equalsIgnoreCase(User_names[i])||Search_User.equals(User_email_addresses[i])||Search_User.equals(Phone_numbers[i])){
                 search_index=i;
             }
         }
-        System.out.print("User ID: "+User_IDs[search_index]+"\nName: "+User_names[search_index]+"\nPhone number: "+Phone_numbers[search_index]+"\nEmail address: "+User_email_addresses[search_index]+"\n User Balance: "+Balances[search_index]+"\nAccount Statuses: "+Account_statuses[search_index]+"\nTransaction amounts: ");
-        for(int i=0;i<Transaction_amounts.get(search_index).size();i++){
-            System.out.print(Transaction_amounts.get(search_index).get(i)+" , ");
+        if (search_index != -1) {
+            System.out.print("User ID: " + User_IDs[search_index] + "\nName: " + User_names[search_index] + "\nPhone number: " + Phone_numbers[search_index] + "\nEmail address: " + User_email_addresses[search_index] + "\nUser Balance: " + Balances[search_index] + "\nAccount Statuses: " + Account_statuses[search_index] + "\nTransaction amounts: ");
+            for (int i = 0; i < Transaction_amounts.get(search_index).size(); i++) {
+                System.out.print(Transaction_amounts.get(search_index).get(i) + " , ");
+            }
+        }else System.out.println("This User Not found !");
+    }
+    public static void viewAllUsers(String [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses){
+        for(int i=0;i< User_IDs.length;i++){
+            System.out.println("User: "+(1+i)+"\nUser ID: " + User_IDs[i] + "\nName: " + User_names[i] + "\nPhone number: " + Phone_numbers[i] + "\nEmail address: " + User_email_addresses[i] + "\nUser Balance: " + Balances[i] + "\nAccount Statuses: " + Account_statuses[i]);
         }
     }
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
@@ -59,23 +67,23 @@ public class Main {
         ArrayList<ArrayList<String>> Transaction_statuses = new ArrayList<>();
         Transaction_statuses.add(new ArrayList<String>());
         System.out.println("========== QUICK PAY ==========");
-        System.out.println("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
+        System.out.print("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
         int main_menu = input.nextInt();
         switch (main_menu) {
             case 1:
-                System.out.println("========== ADMIN PANEL ==========\n1. Show Statistics\n2. Search User\n3. View All Users\n4. Update User\n5. View All Transactions\n6. Block Account\n7. Unblock Account\n8. View User Details\n9. Logout\nChoose an option: ");
+                System.out.print("========== ADMIN PANEL ==========\n1. Show Statistics\n2. Search User\n3. View All Users\n4. Update User\n5. View All Transactions\n6. Block Account\n7. Unblock Account\n8. View User Details\n9. Logout\nChoose an option: ");
                 int Admin_operation = input.nextInt();
                 switch (Admin_operation){
                     case 1:
                         showStatistics(User_names,Account_statuses,Transaction_statuses,Transaction_amounts);
                         break;
                     case 2:
-                        System.out.println("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
+                        System.out.print("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
                         String Search_User = input.next();
                         searchUser(Search_User,User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses,Transaction_amounts);
                         break;
                     case 3:
-                        //View All Users;
+                        viewAllUsers(User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses);
                         break;
                     case 4:
                         //Update User:
