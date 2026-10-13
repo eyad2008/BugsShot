@@ -1,0 +1,244 @@
+
+
+    /** Returns the index of the user with this email or phone, or -1 if nobody has it. */
+    static int findUser(String text) {
+        for (int i = 0; i < userCount; i++) {
+            if (emails[i].equals(text) || phones[i].equals(text)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /** 4. addFavorite(): adds another registered user */
+    static void addFavorite(int me) {
+        System.out.println("\n--- Add Favorite ---");
+        if (favCount[me] >= maxFav) {
+            System.out.println("Your favorites list is full (max " + maxFav + ").");
+            return;
+        }
+        String text = readLine("Contact email or phone: ");
+        int f = findUser(text);
+        if (f == -1) {
+            System.out.println("User not found.");
+            return;
+        }
+        if (f == me) {
+            System.out.println("You cannot add yourself as a favorite.");
+            return;
+        }
+        boolean exists = false;
+        for (int k = 0; k < favCount[me]; k++) {
+            if (favorites[me][k] == f) {
+                exists = true;
+                break;                       // found it, no need to keep looking
+            }
+        }
+        if (exists) {
+            System.out.println(names[f] + " is already in your favorites.");
+            return;
+        }
+        favorites[me][favCount[me]] = f;     // put in the next free place
+        favCount[me]++;
+        System.out.println(names[f] + " was added to your favorites.");
+    }
+
+    /** 5. removeFavorite(): removes one contact   */
+    static void removeFavorite(int me) {
+        System.out.println("\n--- Remove Favorite ---");
+        if (favCount[me] == 0) {
+            System.out.println("You have no favorite contacts.");
+            return;
+        }
+        showFavorites(me);
+        int pick = readInt("Number to remove (0 to cancel): ", 0, favCount[me]);
+        if (pick == 0) {
+            System.out.println("Cancelled.");
+            return;
+        }
+        String removedName = names[favorites[me][pick - 1]];
+        for (int k = pick - 1; k < favCount[me] - 1; k++) {
+            favorites[me][k] = favorites[me][k + 1];     // shift everything left
+        }
+        favCount[me]--;
+        System.out.println(removedName + " was removed from your favorites.");
+    }
+
+    /** 6. showFavorites(): prints the current user's favorites. */
+    static void showFavorites(int me) {
+        if (favCount[me] == 0) {
+            System.out.println("You have no favorite contacts.");
+            return;
+        }
+        System.out.println("\n--- Your Favorites ---");
+        for (int k = 0; k < favCount[me]; k++) {
+            int f = favorites[me][k];
+            System.out.println((k + 1) + ". " + names[f] + " | " + emails[f]);
+        }
+    }
+
+    /** 8. viewProfile(): shows the logged-in user's own information. */
+    static void viewProfile(int me) {
+        System.out.println("\n--- My Profile ---");
+        System.out.println("User ID : " + userIds[me]);
+        System.out.println("Name    : " + names[me]);
+        System.out.println("Email   : " + emails[me]);
+        System.out.println("Phone   : " + phones[me]);
+        if (blocked[me]) {
+            System.out.println("Status  : BLOCKED");
+        } else {
+            System.out.println("Status  : ACTIVE");
+        }
+    }
+
+    /** 9. updateProfile(): name, email, phone or password. Never balance, status or ID. */
+    static void updateProfile(int me) {
+        System.out.println("\n--- Update Profile ---");
+        System.out.println("1. Name");
+        System.out.println("2. Email");
+        System.out.println("3. Phone");
+        System.out.println("4. Password");
+        System.out.println("5. Cancel");
+        int choice = readInt("Choose what to change: ", 1, 5);
+        switch (choice) {
+            case 1: changeName(me); break;
+            case 2: changeEmail(me); break;
+            case 3: changePhone(me); break;
+            case 4: changePassword(me); break;
+            case 5: System.out.println("Cancelled."); break;
+        }
+    }
+
+    static void changeName(int me) {
+        String newName = readLine("New full name: ");
+        if (!isValidName(newName)) {
+            System.out.println("Invalid name. Use 2-30 letters and spaces only.");
+            return;
+        }
+        names[me] = newName;
+        System.out.println("Name updated successfully.");
+    }
+
+    static void changeEmail(int me) {
+        String newEmail = readLine("New email: ");
+        if (!isValidEmail(newEmail)) {
+            System.out.println("Invalid email format (example: name@mail.com).");
+            return;
+        }
+        if (emailTaken(newEmail, me)) {
+            System.out.println("This email is already used by another account.");
+            return;
+        }
+        emails[me] = newEmail;
+        System.out.println("Email updated successfully.");
+    }
+
+    static void changePhone(int me) {
+        String newPhone = readLine("New phone (11 digits, starts with 01): ");
+        if (!isValidPhone(newPhone)) {
+            System.out.println("Invalid phone number.");
+            return;
+        }
+        if (phoneTaken(newPhone, me)) {
+            System.out.println("This phone is already used by another account.");
+            return;
+        }
+        phones[me] = newPhone;
+        System.out.println("Phone updated successfully.");
+    }
+
+    static void changePassword(int me) {
+        String oldPass = readLine("Current password: ");
+        if (!oldPass.equals(passwords[me])) {
+            System.out.println("Wrong current password.");
+            return;
+        }
+        String newPass = readLine("New password (at least 4 characters, no spaces): ");
+        if (newPass.length() < 4) {
+            System.out.println("Password is too short.");
+            return;
+        }
+        for (int i = 0; i < newPass.length(); i++) {
+            if (newPass.charAt(i) == ' ') {
+                System.out.println("Password cannot contain spaces.");
+                return;
+            }
+        }
+        passwords[me] = newPass;
+        System.out.println("Password updated successfully.");
+    }
+
+    // ---------- validation helpers for updateProfile ----------
+    static boolean isValidName(String s) {
+        if (s.length() < 2 || s.length() > 30) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            boolean isLetter = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+            if (!isLetter && c != ' ') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static boolean isValidEmail(String s) {
+        if (s.length() < 5) {
+            return false;
+        }
+        int atCount = 0;
+        int atPos = -1;
+        int lastDot = -1;
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == ' ') {
+                return false;
+            }
+            if (c == '@') {
+                atCount++;
+                atPos = i;
+            }
+            if (c == '.') {
+                lastDot = i;
+            }
+        }
+        // exactly one @, not first, a dot after it, and the dot is not last
+        return atCount == 1 && atPos > 0 && lastDot > atPos + 1 && lastDot < s.length() - 1;
+    }
+
+    static boolean isValidPhone(String s) {
+        return s.length() == 11 && isDigits(s) && s.charAt(0) == '0' && s.charAt(1) == '1';
+    }
+
+    /** True if some OTHER user already has this email. */
+    static boolean emailTaken(String email, int me) {
+        for (int i = 0; i < userCount; i++) {
+            if (i == me) {
+                continue;                    // skip myself
+            }
+            if (emails[i].equals(email)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** True if some OTHER user already has this phone. */
+    static boolean phoneTaken(String phone, int me) {
+        for (int i = 0; i < userCount; i++) {
+            if (i == me) {
+                continue;
+            }
+            if (phones[i].equals(phone)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** 10. logout(): clears the current user; the menu loop then returns to the main menu. */
+    static void logout() {
+        currentUser = -1;
+        System.out.println("Logged out. Returning to main menu.");
+    }
