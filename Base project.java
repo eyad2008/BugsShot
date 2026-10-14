@@ -60,15 +60,14 @@ public class Main {
         int successful_transactions = 0;
         int failed_transactions = 0;
         long  amountofsuccessfultransfers = 0;
-        if(Transaction_statuses!=null&&Transaction_amounts!=null) {
-            for (int j = 0; j < Transaction_statuses.length; j++)
-                for (int i = 0; i < Transaction_statuses[j].length; i++) {
-                    if (Transaction_statuses[j][i].equalsIgnoreCase("successful")) {
-                        successful_transactions++;
-                        amountofsuccessfultransfers += Transaction_amounts[j][i];
-                    } else if (Transaction_statuses[j][i].equalsIgnoreCase("faild"))
-                        failed_transactions++;
-                }
+        for (int j = 0; j < Transaction_statuses.length; j++){
+            for (int i = 0; i < Transaction_statuses[j].length; i++) {
+                if ("successful".equalsIgnoreCase(Transaction_statuses[j][i])) {
+                    successful_transactions++;
+                    amountofsuccessfultransfers += Transaction_amounts[j][i];
+                } else if ("failed".equalsIgnoreCase(Transaction_statuses[j][i]))
+                    failed_transactions++;
+            }
         }
         System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
     }
@@ -166,11 +165,11 @@ public class Main {
                             for (int i = 0; i < Transaction_amounts.length; i++) {
                                     total_transactin_amount += Transaction_amounts[search_details_index][i];
                             }
-                            System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
+                            System.out.println("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
                             if (Transaction_amounts.length != 0) {
                                 System.out.println("Transaction amounts: ");
                                 for (int i = 0; i < Transaction_amounts.length; i++) {
-                                    System.out.println(Transaction_amounts[search_details_index][i]+ " , ");
+                                    System.out.print(Transaction_amounts[search_details_index][i]+ " , ");
                                 }
                             }
                         }else System.out.println("This User Not found !");
