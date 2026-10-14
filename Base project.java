@@ -390,40 +390,31 @@ public class Main {
                     switch (User_operation) {
                         case 1:
                             //Show Balance;
-                            main(new String[0]);
                             break;
                         case 2:
                             //Transfer Money;
-                            main(new String[0]);
                             break;
                         case 3:
                             //Transaction History;
-                            main(new String[0]);
                             break;
                         case 4:
                             showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
-                            main(new String[0]);
                             break;
                         case 5:
                             //Add Favorite;
                             addFavorite(Phone_numbers, Favorite_contacts, User_names);
-                            main(new String[0]);
                             break;
                         case 6:
                             removeFavorite(Phone_numbers, Favorite_contacts, User_names);
-                            main(new String[0]);
                             break;
                         case 7:
                             //Search Recipient;
-                            main(new String[0]);
                             break;
                         case 8:
                             viewProfile(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
-                            main(new String[0]);
                             break;
                         case 9:
                             updateProfile(User_names, User_email_addresses, Phone_numbers, User_passwords);
-                            main(new String[0]);
                             break;
                         case 10:
                             main(new String[0]);
