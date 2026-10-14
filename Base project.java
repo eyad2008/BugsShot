@@ -1,13 +1,15 @@
 package com.mycompany.main;
 import java.util.*;
 public class Main {
+    static Scanner input = new Scanner(System.in);
+    static int login_user_indx;
     public static boolean login_user(String [] Phone_numbers,String [] User_passwords,boolean chek_user_phone, boolean chek_user_password){
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your Phone Number: ");
         String login_user_phone =input.next();
         System.out.print("Enter your password: ");
         String login_user_password =input.next();
-        int login_user_indx =-1;
+        login_user_indx =-1;
         for(int i=0;i<Phone_numbers.length;i++){
             if(login_user_phone.equals(Phone_numbers[i])) {
                 login_user_indx = i;
@@ -28,6 +30,7 @@ public class Main {
         else return true;
 
     }
+
     public static boolean login_admin(String Admin_email , String Admin_password,boolean chek_admin_email, boolean chek_admin_password){
         Scanner input = new Scanner(System.in);
         System.out.print("Enter your Email : ");
@@ -35,7 +38,7 @@ public class Main {
         System.out.print("Enter your password: ");
         String login_Admin_password =input.next();
         if(login_Admin_Email.equals(Admin_email))
-                chek_admin_email =true;
+            chek_admin_email =true;
         else{
             System.out.println("this Email not found !");
         }if(login_Admin_password.equals(Admin_password))
@@ -45,8 +48,6 @@ public class Main {
             return false;
         else return true;
     }
-
-
 
     public static void showStatistics(String [] User_names,String [] Account_statuses,String[][] Transaction_statuses,long[][] Transaction_amounts){
         int Active_Users = 0;
@@ -71,6 +72,7 @@ public class Main {
         }
         System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
     }
+
     public static int searchUser(String Search_User,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
         int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
@@ -80,11 +82,13 @@ public class Main {
         }
         return search_index;
     }
+
     public static void viewAllUsers(int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers,long [] Balances,String [] Account_statuses){
         for(int i=0;i< User_IDs.length;i++){
             System.out.println("User: "+(1+i)+"\nUser ID: " + User_IDs[i] + "\nName: " + User_names[i] + "\nPhone number: " + Phone_numbers[i] + "\nEmail address: " + User_email_addresses[i] + "\nUser Balance: " + Balances[i] + "\nAccount Statuses: " + Account_statuses[i]);
         }
     }
+    
     public static int viewUserDetails (String specific_user,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
         int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
@@ -95,8 +99,186 @@ public class Main {
         return search_index ;
 
     }
+
+      // ==================== 4. SHOW FAVORITES (NESTED LOOP) ====================
+    public static void showFavorites(String[][]Favorite_contacts,int[]User_IDs,String[]Phone_numbers,String[]User_email_addresses,String[]User_names) {
+        System.out.println("\n--- Favorite Contacts ---");
+        boolean hasFavorites = false;
+
+        // Outer loop goes through the logged-in user's favorite slots
+        for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
+            String favPhone = Favorite_contacts[login_user_indx][j];
+            if (favPhone != null) {
+                // Inner loop searches the user arrays to display full contact details
+                for (int k = 0; k < User_IDs.length; k++) {
+                    if (Phone_numbers[k].equals(favPhone)) {
+                        hasFavorites = true;
+                        System.out.println((j + 1) + ". Name  : " + User_names[k]);
+                        System.out.println("   Phone : " + Phone_numbers[k]);
+                        System.out.println("   Email : " + User_email_addresses[k]);
+                        System.out.println("----------------------------------------");
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (hasFavorites==false) {
+            System.out.println("Your favorites list is empty.");
+        }
+    }
+
+    // ==================== 5. ADD FAVORITE ====================
+    public static void addFavorite(String[]Phone_numbers,String[][]Favorite_contacts,String[]User_names) {
+        System.out.println("\n--- Add Favorite ---");
+        System.out.print("Enter Email or Phone number of the user to add: ");
+        String target = input.next();
+        int targetIndex = -1;
+        for(int i =0;i<Phone_numbers.length;i++){
+            if(target.equals(Phone_numbers[i]))
+                targetIndex=i;
+        }
+        if (targetIndex == -1) {
+            System.out.println("User not found in the system!");
+            return;
+        }
+
+        if (targetIndex == login_user_indx) {
+            System.out.println("You cannot add yourself to favorites!");
+            return;
+        }
+        // Check for duplicate favorites
+        for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
+            if (Favorite_contacts[login_user_indx][j].equals(Phone_numbers[targetIndex])) {
+                System.out.println(User_names[targetIndex] + " is already in your favorites!");
+                return;
+            }
+        }
+
+        // Find the first empty slot in the 2D array
+        boolean added = false;
+        for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
+            if (Favorite_contacts[login_user_indx][j] == null) {
+                Favorite_contacts[login_user_indx][j] = Phone_numbers[targetIndex];
+                added = true;
+                break;
+            }
+        }
+
+        if (added) {
+            System.out.println(User_names[targetIndex] + " added to your favorites successfully!");
+        } else {
+            System.out.println("Your favorites list is full!");
+        }
+    }
+
+    // ==================== 6. REMOVE FAVORITE ====================
+    public static void removeFavorite(String[]Phone_numbers,String[][]Favorite_contacts,String[]User_names) {
+        System.out.println("\n--- Remove Favorite ---");
+        System.out.print("Enter Email or Phone number of the favorite to remove: ");
+        String target = input.next();
+        int targetIndex = -1;
+        for(int i =0;i<Phone_numbers.length;i++){
+            if(target.equals(Phone_numbers[i]))
+                targetIndex=i;
+        }
+        if (targetIndex == -1) {
+            System.out.println("User not found!");
+            return;
+        }
+        int removeIndex = -1;
+        for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
+            if (Favorite_contacts[login_user_indx][j].equals(Phone_numbers[targetIndex])){
+                removeIndex = j;
+                break;
+            }
+        }
+
+        if (removeIndex == -1) {
+            System.out.println("This user is not in your favorites list.");
+            return;
+        }
+        Favorite_contacts[login_user_indx][removeIndex] = null;
+        // Shift remaining favorites left so there are no empty gaps in the middle
+        for (int j = removeIndex; j < Favorite_contacts[login_user_indx].length - 1; j++) {
+            Favorite_contacts[login_user_indx][j] = Favorite_contacts[login_user_indx][j + 1];
+        }
+
+        System.out.println(User_names[targetIndex] + " has been removed from your favorites.");
+    }
+
+    // ==================== 9. UPDATE PROFILE ====================
+    public static void updateProfile(String[]User_names,String[]User_email_addresses,String[]Phone_numbers,String[]User_passwords) {
+        System.out.println("\n--- Update Profile ---");
+        System.out.println("1. Update Name");
+        System.out.println("2. Update Email address");
+        System.out.println("3. Update Phone number");
+        System.out.println("4. Update Password");
+        System.out.print("Choose an option: ");
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.print("Enter new Name: ");
+                String newName = input.next();
+                if (newName.length() >= 3) {
+                    User_names[login_user_indx] = newName;
+                    System.out.println("Name updated successfully!");
+                } else {
+                    System.out.println("Invalid Name! Must be at least 3 characters.");
+                }
+                break;
+            case 2:
+                System.out.print("Enter new Email address: ");
+                String newEmail = input.next();
+                if (newEmail.contains("@") && newEmail.contains(".")) {
+                    User_email_addresses[login_user_indx] = newEmail;
+                    System.out.println("Email address updated successfully!");
+                } else {
+                    System.out.println("Invalid Email format!");
+                }
+                break;
+
+            case 3:
+                System.out.print("Enter new Phone number: ");
+                String newPhone = input.next();
+                if (newPhone.length() == 11 ) {
+                    Phone_numbers[login_user_indx] = newPhone;
+                    System.out.println("Phone number updated successfully!");
+                } else {
+                    System.out.println("Invalid Phone number! Must be 11 digits.");
+                }
+                break;
+
+            case 4:
+                System.out.print("Enter new Password: ");
+                String newPassword = input.next();
+                if (newPassword.length() >= 4) {
+                    User_passwords[login_user_indx] = newPassword;
+                    System.out.println("Password updated successfully!");
+                } else {
+                    System.out.println("Invalid Password! Must be at least 4 characters.");
+                }
+                break;
+
+            default:
+                System.out.println("invalid operation number !");
+                break;
+        }
+    }
+
+// ==================== 8. VIEW PROFILE ====================
+   public static void viewProfile(int[]User_IDs,String[]User_names,String[]User_email_addresses,String[]Phone_numbers,long[]Balances,String[]Account_statuses) {
+
+       System.out.println("\n--- My Profile ---");
+       System.out.println("User ID        : " + User_IDs[login_user_indx]);
+       System.out.println("Name           : " + User_names[login_user_indx]);
+       System.out.println("Email address  : " + User_email_addresses[login_user_indx]);
+       System.out.println("Phone number   : " + Phone_numbers[login_user_indx]);
+       System.out.println("Balance        : " + Balances[login_user_indx] + " EGP");
+       System.out.println("Account Status : " + Account_statuses[login_user_indx]);
+   }
+
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
         String Admin_email = "Admin404@gmail.com" ;
         String Admin_password = "Admin15_19" ;
         int [] User_IDs = {5010,5020,5030,5040,5050,5060,5070,5080,5090,6010};
@@ -108,8 +290,6 @@ public class Main {
         String [] Account_statuses = {"Active","Block","Active","Active","Active","Active","Active","Active","Block","Active"};
         String [][] Favorite_contacts = new String[User_IDs.length][User_IDs.length-1];
         Favorite_contacts[0][0]="01198765431";
-        //ArrayList<datatype>[] ArrayName = new ArrayList[outerSize];
-        //Array List to be unlimited size, cuse we don't know many transaction will the user do.
         String [][] Transaction_IDs = new String[User_IDs.length][10000];
         String [][] Transaction_senders = new String[User_IDs.length][10000];
         String [][] Transaction_receivers = new String[User_IDs.length][10000];
@@ -163,7 +343,7 @@ public class Main {
                         if (search_details_index != -1) {
                             long total_transactin_amount = 0;
                             for (int i = 0; i < Transaction_amounts.length; i++) {
-                                    total_transactin_amount += Transaction_amounts[search_details_index][i];
+                                total_transactin_amount += Transaction_amounts[search_details_index][i];
                             }
                             System.out.println("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
                             if (Transaction_amounts.length != 0) {
@@ -175,7 +355,7 @@ public class Main {
                         }else System.out.println("This User Not found !");
                         break;
                     case 9:
-                        //Logout;
+                        main(new String[0]);
                         break;
                     default:
                         System.out.println("invalid operation number !");
@@ -202,25 +382,26 @@ public class Main {
                         //Transaction History;
                         break;
                     case 4:
-                        //Show Favorites:
+                        showFavorites(Favorite_contacts,User_IDs,Phone_numbers,User_email_addresses,User_names);
                         break;
                     case 5:
                         //Add Favorite;
+                        addFavorite(Phone_numbers,Favorite_contacts,User_names);
                         break;
                     case 6:
-                        //Remove Favorite;
+                        removeFavorite(Phone_numbers,Favorite_contacts,User_names);
                         break;
                     case 7:
                         //Search Recipient;
                         break;
                     case 8:
-                        //View Profile;
+                        viewProfile(User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses);
                         break;
                     case 9:
-                        //Update Profile;
+                        updateProfile(User_names,User_email_addresses,Phone_numbers,User_passwords);
                         break;
                     case 10:
-                        //Logout;
+                        main(new String[0]);
                         break;
                     default:
                         System.out.println("invalid operation number !");
@@ -232,10 +413,5 @@ public class Main {
             default:
                 System.out.println("invalid operation number !");
         }
-
-
-
-
-
     }
 }
