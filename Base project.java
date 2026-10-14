@@ -88,7 +88,7 @@ public class Main {
             System.out.println("User: "+(1+i)+"\nUser ID: " + User_IDs[i] + "\nName: " + User_names[i] + "\nPhone number: " + Phone_numbers[i] + "\nEmail address: " + User_email_addresses[i] + "\nUser Balance: " + Balances[i] + "\nAccount Statuses: " + Account_statuses[i]);
         }
     }
-    
+
     public static int viewUserDetails (String specific_user,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
         int search_index = -1 ;
         for(int i =0;i<User_IDs.length;i++){
@@ -311,6 +311,7 @@ public class Main {
                 switch (Admin_operation){
                     case 1:
                         showStatistics(User_names,Account_statuses,Transaction_statuses,Transaction_amounts);
+                        main(new String[0]);
                         break;
                     case 2:
                         System.out.print("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
@@ -320,21 +321,27 @@ public class Main {
                             System.out.print("User ID: " + User_IDs[search_index] + "\nName: " + User_names[search_index] + "\nPhone number: " + Phone_numbers[search_index] + "\nEmail address: " + User_email_addresses[search_index] + "\nAccount Statuses: " + Account_statuses[search_index] );
 
                         }else System.out.println("This User Not found !");
+                        main(new String[0]);
                         break;
                     case 3:
                         viewAllUsers(User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses);
+                        main(new String[0]);
                         break;
                     case 4:
                         //Update User:
+                        main(new String[0]);
                         break;
                     case 5:
                         //View All Transactions;
+                        main(new String[0]);
                         break;
                     case 6:
                         //Block Account;
+                        main(new String[0]);
                         break;
                     case 7:
                         //Unblock Account;
+                        main(new String[0]);
                         break;
                     case 8:
                         System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
@@ -353,6 +360,7 @@ public class Main {
                                 }
                             }
                         }else System.out.println("This User Not found !");
+                        main(new String[0]);
                         break;
                     case 9:
                         main(new String[0]);
@@ -374,31 +382,40 @@ public class Main {
                 switch (User_operation){
                     case 1:
                         //Show Balance;
+                        main(new String[0]);
                         break;
                     case 2:
                         //Transfer Money;
+                        main(new String[0]);
                         break;
                     case 3:
                         //Transaction History;
+                        main(new String[0]);
                         break;
                     case 4:
                         showFavorites(Favorite_contacts,User_IDs,Phone_numbers,User_email_addresses,User_names);
+                        main(new String[0]);
                         break;
                     case 5:
                         //Add Favorite;
                         addFavorite(Phone_numbers,Favorite_contacts,User_names);
+                        main(new String[0]);
                         break;
                     case 6:
                         removeFavorite(Phone_numbers,Favorite_contacts,User_names);
+                        main(new String[0]);
                         break;
                     case 7:
                         //Search Recipient;
+                        main(new String[0]);
                         break;
                     case 8:
                         viewProfile(User_IDs,User_names,User_email_addresses,Phone_numbers,Balances,Account_statuses);
+                        main(new String[0]);
                         break;
                     case 9:
                         updateProfile(User_names,User_email_addresses,Phone_numbers,User_passwords);
+                        main(new String[0]);
                         break;
                     case 10:
                         main(new String[0]);
