@@ -161,10 +161,12 @@ public class Main {
                         String specific_user = input.next();
                         int search_details_index = viewUserDetails (specific_user,User_IDs,User_names,User_email_addresses,Phone_numbers);
                         if (search_details_index != -1) {
-                            System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTransaction amounts: ");
+                            long total_transactin_amount =0;
                             for (int i = 0; i < Transaction_amounts[search_details_index].size(); i++) {
-                                System.out.print(Transaction_amounts[search_details_index].get(i) + " , ");
+                                total_transactin_amount += Transaction_amounts[search_details_index].get(i) ;
                             }
+                            System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTransaction amounts: "+total_transactin_amount);
+                            
                         }else System.out.println("This User Not found !");
                         break;
                     case 9:
