@@ -160,10 +160,16 @@ public class Main {
                         System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
                         String specific_user = input.next();
                         int search_details_index = viewUserDetails (specific_user,User_IDs,User_names,User_email_addresses,Phone_numbers);
+                        int Transaction_amounts_length;
+                        if(Transaction_amounts[search_details_index]==null)
+                            Transaction_amounts_length=0;
+                        else Transaction_amounts_length=Transaction_amounts[search_details_index].size();
                         if (search_details_index != -1) {
-                            long total_transactin_amount =0;
-                            for (int i = 0; i < Transaction_amounts[search_details_index].size(); i++) {
-                                total_transactin_amount += Transaction_amounts[search_details_index].get(i) ;
+                            long total_transactin_amount = 0;
+                            if (Transaction_amounts_length != 0) {
+                                for (int i = 0; i < Transaction_amounts_length; i++) {
+                                    total_transactin_amount += Transaction_amounts[search_details_index].get(i);
+                                }
                             }
                             System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTransaction amounts: "+total_transactin_amount);
                             
