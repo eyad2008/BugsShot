@@ -48,7 +48,7 @@ public class Main {
 
 
 
-    public static void showStatistics(String [] User_names,String [] Account_statuses,ArrayList<String>[] Transaction_statuses,ArrayList<Long>[] Transaction_amounts){
+    public static void showStatistics(String [] User_names,String [] Account_statuses,String[][] Transaction_statuses,long[][] Transaction_amounts){
         int Active_Users = 0;
         int  blocked_accounts = 0;
         for(int i=0;i<Account_statuses.length;i++){
@@ -60,15 +60,16 @@ public class Main {
         int successful_transactions = 0;
         int failed_transactions = 0;
         long  amountofsuccessfultransfers = 0;
-        for(int j=0;j<Transaction_statuses.length;j++)
-            for(int i=0;i<Transaction_statuses[j].size();i++){
-                if(Transaction_statuses[j].get(i).equalsIgnoreCase("successful")) {
-                    successful_transactions++;
-                    amountofsuccessfultransfers += Transaction_amounts[j].get(i);
-                }else if (Transaction_statuses[j].get(i).equalsIgnoreCase("faild"))
-                    failed_transactions++;
+        if(Transaction_statuses!=null&&Transaction_amounts!=null) {
+            for (int j = 0; j < Transaction_statuses.length; j++)
+                for (int i = 0; i < Transaction_statuses[j].length; i++) {
+                    if (Transaction_statuses[j][i].equalsIgnoreCase("successful")) {
+                        successful_transactions++;
+                        amountofsuccessfultransfers += Transaction_amounts[j][i];
+                    } else if (Transaction_statuses[j][i].equalsIgnoreCase("faild"))
+                        failed_transactions++;
+                }
         }
-
         System.out.println("Total number of registered users: "+User_names.length+"\nNumber of active users: "+Active_Users+"\nNumber of blocked accounts: "+blocked_accounts+"\nTotal number of successful transactions: "+successful_transactions+"\nTotal number of failed transactions: "+failed_transactions+"\nTotal amount of successful transfers: "+amountofsuccessfultransfers);
     }
     public static int searchUser(String Search_User,int [] User_IDs,String [] User_names,String [] User_email_addresses,String [] Phone_numbers){
@@ -110,11 +111,11 @@ public class Main {
         Favorite_contacts[0][0]="01198765431";
         //ArrayList<datatype>[] ArrayName = new ArrayList[outerSize];
         //Array List to be unlimited size, cuse we don't know many transaction will the user do.
-        ArrayList<String>[] Transaction_IDs = new ArrayList[User_IDs.length];
-        ArrayList<String>[] Transaction_senders = new ArrayList[User_IDs.length];
-        ArrayList<String>[] Transaction_receivers = new ArrayList[User_IDs.length];
-        ArrayList<Long>[] Transaction_amounts = new ArrayList[User_IDs.length];
-        ArrayList<String>[] Transaction_statuses = new ArrayList[User_IDs.length];
+        String [][] Transaction_IDs = new String[User_IDs.length][10000];
+        String [][] Transaction_senders = new String[User_IDs.length][10000];
+        String [][] Transaction_receivers = new String[User_IDs.length][10000];
+        long [][] Transaction_amounts = new long[User_IDs.length][10000];
+        String [][] Transaction_statuses = new String[User_IDs.length][10000];
         System.out.println("========== QUICK PAY ==========");
         System.out.print("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
         int main_menu = input.nextInt();
@@ -160,22 +161,16 @@ public class Main {
                         System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
                         String specific_user = input.next();
                         int search_details_index = viewUserDetails (specific_user,User_IDs,User_names,User_email_addresses,Phone_numbers);
-                        int Transaction_amounts_length;
-                        if(Transaction_amounts[search_details_index]==null)
-                            Transaction_amounts_length=0;
-                        else Transaction_amounts_length=Transaction_amounts[search_details_index].size();
                         if (search_details_index != -1) {
                             long total_transactin_amount = 0;
-                            if (Transaction_amounts_length != 0) {
-                                for (int i = 0; i < Transaction_amounts_length; i++) {
-                                    total_transactin_amount += Transaction_amounts[search_details_index].get(i);
-                                }
+                            for (int i = 0; i < Transaction_amounts.length; i++) {
+                                    total_transactin_amount += Transaction_amounts[search_details_index][i];
                             }
-                            System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTransaction amounts: "+total_transactin_amount);
-                            if (Transaction_amounts_length != 0) {
+                            System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
+                            if (Transaction_amounts.length != 0) {
                                 System.out.println("Transaction amounts: ");
-                                for (int i = 0; i < Transaction_amounts_length; i++) {
-                                    System.out.println(Transaction_amounts[search_details_index].get(i)+ " , ");
+                                for (int i = 0; i < Transaction_amounts.length; i++) {
+                                    System.out.println(Transaction_amounts[search_details_index][i]+ " , ");
                                 }
                             }
                         }else System.out.println("This User Not found !");
@@ -238,6 +233,8 @@ public class Main {
             default:
                 System.out.println("invalid operation number !");
         }
+
+
 
 
 
