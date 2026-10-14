@@ -172,7 +172,12 @@ public class Main {
                                 }
                             }
                             System.out.print("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTransaction amounts: "+total_transactin_amount);
-                            
+                            if (Transaction_amounts_length != 0) {
+                                System.out.println("Transaction amounts: ");
+                                for (int i = 0; i < Transaction_amounts_length; i++) {
+                                    System.out.println(Transaction_amounts[search_details_index].get(i)+ " , ");
+                                }
+                            }
                         }else System.out.println("This User Not found !");
                         break;
                     case 9:
