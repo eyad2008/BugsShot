@@ -278,12 +278,31 @@ public class Main {
        System.out.println("Account Status : " + Account_statuses[login_user_indx]);
    }
 
+    public static void viewAllTransactions(String[][] Transaction_IDs, String[][] Transaction_senders, String[][] Transaction_receivers, long[][] Transaction_amounts, String[][] Transaction_statuses) {
+        boolean found = false;
+        for (int i = 0; i < Transaction_IDs.length; i++) {
+            for (int j = 0; j < Transaction_IDs[i].length; j++) {
+                if (Transaction_IDs[i][j] != null) {
+                    found = true;
+                    System.out.println("\n========== Transaction ==========");
+                    System.out.println("Transaction ID: " + Transaction_IDs[i][j]);
+                    System.out.println("Sender: " + Transaction_senders[i][j]);
+                    System.out.println("Receiver: " + Transaction_receivers[i][j]);
+                    System.out.println("Amount: " + Transaction_amounts[i][j]);
+                    System.out.println("Status: " + Transaction_statuses[i][j]);
+                }
+            }
+        }
+        if (!found) {
+            System.out.println("No transactions found!");
+        }
+    }
 
+    public static void showBalance( long[] Balances) {
 
-
-
-
-
+        System.out.println("======== YOUR BALANCE ========");
+        System.out.println("Current Balance: " + Balances[login_user_indx] + " EGP");
+    }
 
 
 
@@ -292,25 +311,25 @@ public class Main {
         String Admin_password = "Admin15_19" ;
         int [] User_IDs = new int[100];
         User_IDs[0]=5010;User_IDs[1]=5020;User_IDs[2]=5030;User_IDs[3]=5040;User_IDs[4]=5050;
-       
+
         String [] User_names = new String[100];
         User_names[0]="Ahmed"; User_names[1]="Mohammed";User_names[2]="Ali";User_names[3]="Marawan";User_names[4]="youssef";
-        
+
         String [] User_email_addresses = new String[100];
         User_email_addresses[0]="ahmed@gmail.com";User_email_addresses[1]="mahammed@gmail.com";User_email_addresses[2]="ali@gmail.com";User_email_addresses[3]="marawan@gmail.com";User_email_addresses[4]="youssef@gmail.com";
-       
+
         String [] Phone_numbers = new String[100];
         Phone_numbers[0]="01134567891";Phone_numbers[1]="01198765431";Phone_numbers[2]="01274638190";Phone_numbers[3]="01239748290";Phone_numbers[4]="01153784952";
-        
+
         String [] User_passwords = new String[100];
         User_passwords[0]="Ahmed10";User_passwords[1]="Mohammed20";User_passwords[2]="Ali30";User_passwords[3]="Marawan50";User_passwords[4]="Youssef10";
-        
+
         long [] Balances =new long[100];
         Balances[0] =5000;Balances[1] =2300;Balances[2] =2000;Balances[3] =3500;Balances[4] =1800;
-        
+
         String [] Account_statuses = new String[100];
         Account_statuses[0] ="Active";Account_statuses[1] ="Block";Account_statuses[2] ="Active";Account_statuses[3] ="Active";Account_statuses [4]="Active";
-    
+
         String [][] Favorite_contacts = new String[User_IDs.length][User_IDs.length-1];
         Favorite_contacts[0][0]="01198765431";
         String [][] Transaction_IDs = new String[User_IDs.length][10000];
@@ -353,13 +372,13 @@ public class Main {
                             //Update User:
                             break;
                         case 5:
-                            //View All Transactions;
+                            viewAllTransactions( Transaction_IDs, Transaction_senders, Transaction_receivers,Transaction_amounts, Transaction_statuses);
                             break;
                         case 6:
-                            //Block Account;
+                            //loc;
                             break;
                         case 7:
-                            //Unblock Account;
+                            //u;
                             break;
                         case 8:
                             System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
@@ -403,7 +422,7 @@ public class Main {
                     User_operation = input.nextInt();
                     switch (User_operation) {
                         case 1:
-                            //Show Balance;
+                            showBalance(Balances);
                             break;
                         case 2:
                             //Transfer Money;
@@ -415,7 +434,6 @@ public class Main {
                             showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
                             break;
                         case 5:
-                            //Add Favorite;
                             addFavorite(Phone_numbers, Favorite_contacts, User_names);
                             break;
                         case 6:
