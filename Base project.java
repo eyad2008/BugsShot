@@ -304,7 +304,98 @@ public class Main {
         System.out.println("Current Balance: " + Balances[login_user_indx] + " EGP");
     }
 
+    public static void updateUser(String[] User_names, String[] User_email_addresses, String[] Phone_numbers, String[] User_passwords) {
+        System.out.println("\n--- Update Profile ---");
+        System.out.println("1. Update Name only");
+        System.out.println("2. Update Email address only");
+        System.out.println("3. Update Phone number only");
+        System.out.println("4. Update Password only");
+        System.out.print("Choose what you want to update: ");
 
+        int choice = input.nextInt();
+        switch (choice) {
+            case 1:
+                System.out.print("Enter new Name: ");
+                String newName = input.next();
+                if (newName.length() >= 3) {
+                    User_names[login_user_indx] = newName;
+                    System.out.println("Name updated successfully!");
+                } else {
+                    System.out.println("Invalid Name! Must be at least 3 characters.");
+                }
+                break;
+
+            case 2:
+                System.out.print("Enter new Email address: ");
+                String newEmail = input.next();
+                if (newEmail.contains("@") && newEmail.contains(".")) {
+                    User_email_addresses[login_user_indx] = newEmail;
+                    System.out.println("Email address updated successfully!");
+                } else {
+                    System.out.println("Invalid Email format!");
+                }
+                break;
+
+            case 3:
+                System.out.print("Enter new Phone number: ");
+                String newPhone = input.next();
+                if (newPhone.length() == 11) {
+                    Phone_numbers[login_user_indx] = newPhone;
+                    System.out.println("Phone number updated successfully!");
+                } else {
+                    System.out.println("Invalid Phone number! Must be 11 digits.");
+                }
+                break;
+
+            case 4:
+                System.out.print("Enter new Password: ");
+                String newPassword = input.next();
+                if (newPassword.length() >= 4) {
+                    User_passwords[login_user_indx] = newPassword;
+                    System.out.println("Password updated successfully!");
+                } else {
+                    System.out.println("Invalid Password! Must be at least 4 characters.");
+                }
+                break;
+
+            default:
+                System.out.println("Invalid operation number!");
+                break;
+        }
+    }
+    public static void blockAccount(int[] User_IDs, String[] User_names, String[] Phone_numbers, String[] User_email_addresses, String[] Account_statuses) {
+        System.out.print("Enter User ID, Name, Phone, or Email to block: ");
+        String target = input.next();
+        int index = searchUser(target, User_IDs, User_names, User_email_addresses, Phone_numbers);
+
+        if (index != -1) {
+            if (Account_statuses[index].equalsIgnoreCase("block")) {
+                System.out.println("Account status: Block. This account is already blocked!");
+            } else {
+                Account_statuses[index] = "Block";
+                System.out.println("Account status changed to: Block. User " + User_names[index] + " has been blocked successfully.");
+            }
+        } else {
+            System.out.println("User not found in the system!");
+        }
+    }
+
+    public static void unblockAccount(int[] User_IDs, String[] User_names, String[] Phone_numbers, String[] User_email_addresses, String[] Account_statuses) {
+        System.out.print("Enter User ID, Name, Phone, or Email to unblock: ");
+        String target = input.next();
+        int index = searchUser(target, User_IDs, User_names, User_email_addresses, Phone_numbers);
+
+        if (index != -1) {
+            if (Account_statuses[index].equalsIgnoreCase("active")) {
+                System.out.println("Account status: Active. This account is already active!");
+            } else {
+                Account_statuses[index] = "Active";
+                System.out.println("Account status changed to: Active. User " + User_names[index] + " has been unblocked successfully.");
+            }
+        } else {
+            System.out.println("User not found in the system!");
+        }
+    }
 
     public static void main(String[] args) {
         String Admin_email = "Admin404@gmail.com" ;
@@ -340,128 +431,130 @@ public class Main {
         System.out.println("========== QUICK PAY ==========");
         System.out.print("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
         int main_menu = input.nextInt();
-        switch (main_menu) {
-            case 1:
-                boolean chek_admin_email = false;
-                boolean chek_admin_password = false;
-                boolean login_Amin =login_admin( Admin_email ,  Admin_password, chek_admin_email,chek_admin_password);
-                if(login_Amin==false){
-                    login_admin( Admin_email ,  Admin_password, chek_admin_email,chek_admin_password);
-                }
-                int Admin_operation;
-                do {
-                    System.out.print("========== ADMIN PANEL ==========\n1. Show Statistics\n2. Search User\n3. View All Users\n4. Update User\n5. View All Transactions\n6. Block Account\n7. Unblock Account\n8. View User Details\n9. Logout\nChoose an option: ");
-                    Admin_operation = input.nextInt();
-                    switch (Admin_operation) {
-                        case 1:
-                            showStatistics(User_names, Account_statuses, Transaction_statuses, Transaction_amounts);
-                            break;
-                        case 2:
-                            System.out.print("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
-                            String Search_User = input.next();
-                            int search_index = searchUser(Search_User, User_IDs, User_names, User_email_addresses, Phone_numbers);
-                            if (search_index != -1) {
-                                System.out.print("User ID: " + User_IDs[search_index] + "\nName: " + User_names[search_index] + "\nPhone number: " + Phone_numbers[search_index] + "\nEmail address: " + User_email_addresses[search_index] + "\nAccount Statuses: " + Account_statuses[search_index]);
+        do {
+            switch (main_menu) {
+                case 1:
+                    boolean chek_admin_email = false;
+                    boolean chek_admin_password = false;
+                    boolean login_Amin = login_admin(Admin_email, Admin_password, chek_admin_email, chek_admin_password);
+                    if (login_Amin == false) {
+                        login_admin(Admin_email, Admin_password, chek_admin_email, chek_admin_password);
+                    }
+                    int Admin_operation;
+                    do {
+                        System.out.print("========== ADMIN PANEL ==========\n1. Show Statistics\n2. Search User\n3. View All Users\n4. Update User\n5. View All Transactions\n6. Block Account\n7. Unblock Account\n8. View User Details\n9. Logout\nChoose an option: ");
+                        Admin_operation = input.nextInt();
+                        switch (Admin_operation) {
+                            case 1:
+                                showStatistics(User_names, Account_statuses, Transaction_statuses, Transaction_amounts);
+                                break;
+                            case 2:
+                                System.out.print("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
+                                String Search_User = input.next();
+                                int search_index = searchUser(Search_User, User_IDs, User_names, User_email_addresses, Phone_numbers);
+                                if (search_index != -1) {
+                                    System.out.print("User ID: " + User_IDs[search_index] + "\nName: " + User_names[search_index] + "\nPhone number: " + Phone_numbers[search_index] + "\nEmail address: " + User_email_addresses[search_index] + "\nAccount Statuses: " + Account_statuses[search_index]);
 
-                            } else System.out.println("This User Not found !");
-                            break;
-                        case 3:
-                            viewAllUsers(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
-                            break;
-                        case 4:
-                            //Update User:
-                            break;
-                        case 5:
-                            viewAllTransactions( Transaction_IDs, Transaction_senders, Transaction_receivers,Transaction_amounts, Transaction_statuses);
-                            break;
-                        case 6:
-                            //loc;
-                            break;
-                        case 7:
-                            //u;
-                            break;
-                        case 8:
-                            System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
-                            String specific_user = input.next();
-                            int search_details_index = viewUserDetails(specific_user, User_IDs, User_names, User_email_addresses, Phone_numbers);
-                            if (search_details_index != -1) {
-                                long total_transactin_amount = 0;
-                                for (int i = 0; i < Transaction_amounts.length; i++) {
-                                    total_transactin_amount += Transaction_amounts[search_details_index][i];
-                                }
-                                System.out.println("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
-                                if (Transaction_amounts.length != 0) {
-                                    System.out.println("Transaction amounts: ");
+                                } else System.out.println("This User Not found !");
+                                break;
+                            case 3:
+                                viewAllUsers(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
+                                break;
+                            case 4:
+                                updateUser(User_names, User_email_addresses, Phone_numbers, User_passwords);
+                                break;
+                            case 5:
+                                viewAllTransactions(Transaction_IDs, Transaction_senders, Transaction_receivers, Transaction_amounts, Transaction_statuses);
+                                break;
+                            case 6:
+                                blockAccount(User_IDs, User_names, Phone_numbers, User_email_addresses, Account_statuses);
+                                break;
+                            case 7:
+                                unblockAccount(User_IDs, User_names, Phone_numbers, User_email_addresses, Account_statuses);
+                                break;
+                            case 8:
+                                System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
+                                String specific_user = input.next();
+                                int search_details_index = viewUserDetails(specific_user, User_IDs, User_names, User_email_addresses, Phone_numbers);
+                                if (search_details_index != -1) {
+                                    long total_transactin_amount = 0;
                                     for (int i = 0; i < Transaction_amounts.length; i++) {
-                                        System.out.print(Transaction_amounts[search_details_index][i] + " , ");
+                                        total_transactin_amount += Transaction_amounts[search_details_index][i];
                                     }
-                                }
-                            } else System.out.println("This User Not found !");
-                            break;
-                        case 9:
-                            main(new String[0]);
-                            break;
-                        default:
-                            System.out.println("invalid operation number !");
-                            break;
+                                    System.out.println("User ID: " + User_IDs[search_details_index] + "\nName: " + User_names[search_details_index] + "\nPhone number: " + Phone_numbers[search_details_index] + "\nEmail address: " + User_email_addresses[search_details_index] + "\nUser Balance: " + Balances[search_details_index] + "\nAccount Statuses: " + Account_statuses[search_details_index] + "\nTotal transaction amount: " + total_transactin_amount);
+                                    if (Transaction_amounts.length != 0) {
+                                        System.out.println("Transaction amounts: ");
+                                        for (int i = 0; i < Transaction_amounts.length; i++) {
+                                            System.out.print(Transaction_amounts[search_details_index][i] + " , ");
+                                        }
+                                    }
+                                } else System.out.println("This User Not found !");
+                                break;
+                            case 9:
+                                main(new String[0]);
+                                break;
+                            default:
+                                System.out.println("invalid operation number !");
+                                break;
+                        }
+                    } while (Admin_operation != 9);
+                    main(new String[0]);
+                    break;
+                case 2:
+                    boolean chek_user_phone = false;
+                    boolean chek_user_password = false;
+                    boolean login = login_user(Phone_numbers, User_passwords, chek_user_phone, chek_user_password);
+                    if (login == false) {
+                        login_user(Phone_numbers, User_passwords, chek_user_phone, chek_user_password);
                     }
-                } while (Admin_operation != 9);
-                main(new String[0]);
-                break;
+                    int User_operation;
+                    do {
+                        System.out.print("========== USER PANEL ==========\n1. Show Balance\n2. Transfer Money\n3. Transaction History\n4. Show Favorites\n5. Add Favorite\n6. Remove Favorite\n7. Search Recipient\n8. View Profile\n9. Update Profile\n10. Logout\nChoose an option: ");
+                        User_operation = input.nextInt();
+                        switch (User_operation) {
+                            case 1:
+                                showBalance(Balances);
+                                break;
+                            case 2:
+                                //Transfer Money;
+                                break;
+                            case 3:
+                                //Transaction History;
+                                break;
+                            case 4:
+                                showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
+                                break;
+                            case 5:
+                                addFavorite(Phone_numbers, Favorite_contacts, User_names);
+                                break;
+                            case 6:
+                                removeFavorite(Phone_numbers, Favorite_contacts, User_names);
+                                break;
+                            case 7:
+                                //Search Recipient;
+                                break;
+                            case 8:
+                                viewProfile(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
+                                break;
+                            case 9:
+                                updateProfile(User_names, User_email_addresses, Phone_numbers, User_passwords);
+                                break;
+                            case 10:
+                                main(new String[0]);
+                                break;
+                            default:
+                                System.out.println("invalid operation number !");
+                                break;
+                        }
+                    } while (User_operation != 10);
+                    main(new String[0]);
+                    break;
+                case 3:
+                    return;
+                default:
 
-            case 2 :
-                boolean chek_user_phone = false;
-                boolean chek_user_password = false;
-                boolean login = login_user(Phone_numbers,User_passwords,chek_user_phone,chek_user_password);
-                if(login==false){
-                    login_user(Phone_numbers,User_passwords,chek_user_phone,chek_user_password);
-                }
-                int User_operation;
-                do {
-                    System.out.print("========== USER PANEL ==========\n1. Show Balance\n2. Transfer Money\n3. Transaction History\n4. Show Favorites\n5. Add Favorite\n6. Remove Favorite\n7. Search Recipient\n8. View Profile\n9. Update Profile\n10. Logout\nChoose an option: ");
-                    User_operation = input.nextInt();
-                    switch (User_operation) {
-                        case 1:
-                            showBalance(Balances);
-                            break;
-                        case 2:
-                            //Transfer Money;
-                            break;
-                        case 3:
-                            //Transaction History;
-                            break;
-                        case 4:
-                            showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
-                            break;
-                        case 5:
-                            addFavorite(Phone_numbers, Favorite_contacts, User_names);
-                            break;
-                        case 6:
-                            removeFavorite(Phone_numbers, Favorite_contacts, User_names);
-                            break;
-                        case 7:
-                            //Search Recipient;
-                            break;
-                        case 8:
-                            viewProfile(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
-                            break;
-                        case 9:
-                            updateProfile(User_names, User_email_addresses, Phone_numbers, User_passwords);
-                            break;
-                        case 10:
-                            main(new String[0]);
-                            break;
-                        default:
-                            System.out.println("invalid operation number !");
-                            break;
-                    }
-                }while (User_operation!=10);
-                main(new String[0]);
-                break;
-            case 3:
-                return;
-            default:
-                System.out.println("invalid operation number !");
-        }
+                    System.out.println("invalid operation number !");
+            }
+        }while (main_menu != 3) ;
     }
 }
