@@ -431,7 +431,6 @@ public class Main {
         System.out.println("========== QUICK PAY ==========");
         System.out.print("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
         int main_menu = input.nextInt();
-        do {
             switch (main_menu) {
                 case 1:
                     boolean chek_admin_email = false;
@@ -552,9 +551,7 @@ public class Main {
                 case 3:
                     return;
                 default:
-
                     System.out.println("invalid operation number !");
             }
-        }while (main_menu != 3) ;
     }
 }
