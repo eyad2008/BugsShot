@@ -290,13 +290,27 @@ public class Main {
     public static void main(String[] args) {
         String Admin_email = "Admin404@gmail.com" ;
         String Admin_password = "Admin15_19" ;
-        int [] User_IDs = {5010,5020,5030,5040,5050,5060,5070,5080,5090,6010};
-        String [] User_names = {"Ahmed","Mohammed","Ali","Malak","Marawan","Yasmeen","Eyad","Marym","Hana","youssef"};
-        String [] User_email_addresses = {"ahmed@gmail.com","mahammed@gmail.com","ali@gmail.com","malak@gmail.com","marawan@gmail.com","yasmeen@gmail.com","eyad@gmail.com","marym@gmail.com","hana@gmail.com","youssef@gmail.com"};
-        String [] Phone_numbers = {"01134567891","01198765431","01198654732","01153784952","01137895478","01274638190","01289736489","01276483286","01239748290","01244472983"};
-        String [] User_passwords = {"Ahmed10","Mohammed20","Ali30","Malak40","Marawan50","Yasmeen60","Eyad70","Marym80","Hana90","Youssef10"};
-        long [] Balances ={5000,1500,2000,400,6500,2300,4050,3500,10000,1800};
-        String [] Account_statuses = {"Active","Block","Active","Active","Active","Active","Active","Active","Block","Active"};
+        int [] User_IDs = new int[100];
+        User_IDs[0]=5010;User_IDs[1]=5020;User_IDs[2]=5030;User_IDs[3]=5040;User_IDs[4]=5050;
+       
+        String [] User_names = new String[100];
+        User_names[0]="Ahmed"; User_names[1]="Mohammed";User_names[2]="Ali";User_names[3]="Marawan";User_names[4]="youssef";
+        
+        String [] User_email_addresses = new String[100];
+        User_email_addresses[0]="ahmed@gmail.com";User_email_addresses[1]="mahammed@gmail.com";User_email_addresses[2]="ali@gmail.com";User_email_addresses[3]="marawan@gmail.com";User_email_addresses[4]="youssef@gmail.com";
+       
+        String [] Phone_numbers = new String[100];
+        Phone_numbers[0]="01134567891";Phone_numbers[1]="01198765431";Phone_numbers[2]="01274638190";Phone_numbers[3]="01239748290";Phone_numbers[4]="01153784952";
+        
+        String [] User_passwords = new String[100];
+        User_passwords[0]="Ahmed10";User_passwords[1]="Mohammed20";User_passwords[2]="Ali30";User_passwords[3]="Marawan50";User_passwords[4]="Youssef10";
+        
+        long [] Balances =new long[100];
+        Balances[0] =5000;Balances[1] =2300;Balances[2] =2000;Balances[3] =3500;Balances[4] =1800;
+        
+        String [] Account_statuses = new String[100];
+        Account_statuses[0] ="Active";Account_statuses[1] ="Block";Account_statuses[2] ="Active";Account_statuses[3] ="Active";Account_statuses [4]="Active";
+    
         String [][] Favorite_contacts = new String[User_IDs.length][User_IDs.length-1];
         Favorite_contacts[0][0]="01198765431";
         String [][] Transaction_IDs = new String[User_IDs.length][10000];
