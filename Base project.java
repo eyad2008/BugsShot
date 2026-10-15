@@ -609,9 +609,9 @@ public class Main {
         while (!exit) {
             System.out.println("========== QUICK PAY ==========");
             System.out.print("1. Login as Admin\n2. Login as User\n3. Exit\nChoose an option: ");
-            int main_menu = input.nextInt();
+            String main_menu = input.next();
             switch (main_menu) {
-                case 1:
+                case "1":
                     int retries = 0;
                     boolean login_Admin = login_admin(Admin_email, Admin_password);
                     while (!login_Admin && retries < 3) {
@@ -623,17 +623,17 @@ public class Main {
                         System.out.println("Too many failed attempts. Returning to main menu.");
                         break;
                     }
-                    int Admin_operation = 9;
+                    String Admin_operation = "9";
                     do {
                         System.out.print("========== ADMIN PANEL ==========\n1. Show Statistics\n2. Search User\n3. View All Users\n4. Update User\n5. View All Transactions\n6. Block Account\n7. Unblock Account\n8. View User Details\n9. Logout\nChoose an option: ");
 
-                        Admin_operation = input.nextInt();
+                        Admin_operation = input.next();
 
                         switch (Admin_operation) {
-                            case 1:
+                            case "1":
                                 showStatistics(User_names, Account_statuses, Transaction_statuses, Transaction_amounts);
                                 break;
-                            case 2:
+                            case "2":
                                 System.out.print("Search for a user using one of the following(User ID or Name or Phone number or Email address) : ");
                                 String Search_User = input.next();
                                 int search_index = searchUser(Search_User, User_IDs, User_names, User_email_addresses, Phone_numbers);
@@ -642,22 +642,22 @@ public class Main {
 
                                 } else System.out.println("This User Not found !");
                                 break;
-                            case 3:
+                            case "3":
                                 viewAllUsers(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
                                 break;
-                            case 4:
+                            case "4":
                                 updateUser(User_IDs, User_names, User_email_addresses, Phone_numbers, User_passwords);
                                 break;
-                            case 5:
+                            case "5":
                                 viewAllTransactions(Transaction_IDs, Transaction_senders, Transaction_receivers, Transaction_amounts, Transaction_statuses);
                                 break;
-                            case 6:
+                            case "6":
                                 blockAccount(User_IDs, User_names, Phone_numbers, User_email_addresses, Account_statuses);
                                 break;
-                            case 7:
+                            case "7":
                                 unblockAccount(User_IDs, User_names, Phone_numbers, User_email_addresses, Account_statuses);
                                 break;
-                            case 8:
+                            case "8":
                                 System.out.print("View details of a user using one of the following (User ID or Name or Phone number or Email address) : ");
                                 String specific_user = input.next();
                                 int search_details_index = viewUserDetails(specific_user, User_IDs, User_names, User_email_addresses, Phone_numbers);
@@ -684,16 +684,16 @@ public class Main {
 
                                 } else System.out.println("This User Not found !");
                                 break;
-                            case 9:
+                            case "9":
                                 //log out;
                                 break;
                             default:
                                 System.out.println("invalid operation number !");
                                 break;
                         }
-                    } while (Admin_operation != 9);
+                    } while (!(Admin_operation.equals("9")));
                     break;
-                case 2:
+                case "2":
                     int userRetries = 0;
                     boolean login = login_user(Phone_numbers, User_passwords);
                     while (!login && userRetries < 3) {
@@ -705,49 +705,49 @@ public class Main {
                         System.out.println("Login failed. Returning to main menu.");
                         break;
                     }
-                    int User_operation = 10;
+                    String User_operation = "10";
                     do {
                         System.out.print("========== USER PANEL ==========\n1. Show Balance\n2. Transfer Money\n3. Transaction History\n4. Show Favorites\n5. Add Favorite\n6. Remove Favorite\n7. Search Recipient\n8. View Profile\n9. Update Profile\n10. Logout\nChoose an option: ");
-                        User_operation = input.nextInt();
+                        User_operation = input.next();
 
                         switch (User_operation) {
-                            case 1:
+                            case "1":
                                 showBalance(Balances);
                                 break;
-                            case 2:
+                            case "2":
                                 transferMoney(User_IDs, Transaction_IDs, Account_statuses, Transaction_senders, Transaction_receivers, Transaction_amounts, Transaction_statuses, User_names, User_email_addresses, Phone_numbers, Balances);
                                 break;
-                            case 3:
+                            case "3":
                                 showHistory(User_email_addresses, Transaction_IDs, Transaction_senders, Transaction_receivers, Transaction_amounts, Transaction_statuses);
                                 break;
-                            case 4:
+                            case "4":
                                 showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
                                 break;
-                            case 5:
+                            case "5":
                                 addFavorite(Phone_numbers,User_email_addresses, Favorite_contacts, User_names);
                                 break;
-                            case 6:
+                            case "6":
                                 removeFavorite(Phone_numbers,User_email_addresses, Favorite_contacts, User_names);
                                 break;
-                            case 7:
+                            case "7":
                                 searchRecipient(User_IDs, User_names, User_email_addresses, Phone_numbers, Account_statuses);
                                 break;
-                            case 8:
+                            case "8":
                                 viewProfile(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
                                 break;
-                            case 9:
+                            case "9":
                                 updateProfile(User_names, User_email_addresses, Phone_numbers, User_passwords);
                                 break;
-                            case 10:
+                            case "10":
                                 //log out;
                                 break;
                             default:
                                 System.out.println("invalid operation number !");
                                 break;
                         }
-                    } while (User_operation != 10);
+                    } while (!(User_operation.equals("10")));
                     break;
-                case 3:
+                case "3":
                     exit = true;
                     return;
                 default:
