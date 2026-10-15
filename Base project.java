@@ -594,9 +594,16 @@ public class Main {
             int main_menu = input.nextInt();
             switch (main_menu) {
                 case 1:
+                    int retries = 0;
                     boolean login_Admin = login_admin(Admin_email, Admin_password);
-                    while (login_Admin == false) {
+                    while (!login_Admin && retries < 3) {
+                        System.out.println("Invalid credentials. Try again.");
                         login_Admin = login_admin(Admin_email, Admin_password);
+                        retries++;
+                    }
+                    if (!login_Admin) {
+                        System.out.println("Too many failed attempts. Returning to main menu.");
+                        break;
                     }
                     int Admin_operation = 9;
                     do {
@@ -669,9 +676,16 @@ public class Main {
                     } while (Admin_operation != 9);
                     break;
                 case 2:
+                    int userRetries = 0;
                     boolean login = login_user(Phone_numbers, User_passwords);
-                    while (login == false) {
+                    while (!login && userRetries < 3) {
+                        System.out.println("Invalid login credentials. Please try again.");
                         login = login_user(Phone_numbers, User_passwords);
+                        userRetries++;
+                    }
+                    if (!login) {
+                        System.out.println("Login failed. Returning to main menu.");
+                        break;
                     }
                     int User_operation = 10;
                     do {
