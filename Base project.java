@@ -144,16 +144,22 @@ public class Main {
         }
     }
 
-    // ==================== 5. ADD FAVORITE ====================
-    public static void addFavorite(String[] Phone_numbers, String[][] Favorite_contacts, String[] User_names) {
+    // ==================== 5. ADD FAVORITE (FIXED) ====================
+    public static void addFavorite(String[] Phone_numbers, String[] User_email_addresses, String[][] Favorite_contacts, String[] User_names) {
         System.out.println("\n--- Add Favorite ---");
-        System.out.print("Enter Phone number of the user to add: ");
+        System.out.print("Enter Email or Phone number of the user to add: ");
         String target = input.next();
         int targetIndex = -1;
+
+        // FIX 1: Check both Phone_numbers AND User_email_addresses (making sure slot isn't null)
         for (int i = 0; i < Phone_numbers.length; i++) {
-            if (Phone_numbers[i] != null && target.equals(Phone_numbers[i]))
+            if ((Phone_numbers[i] != null && target.equals(Phone_numbers[i])) ||
+                    (User_email_addresses[i] != null && target.equalsIgnoreCase(User_email_addresses[i]))) {
                 targetIndex = i;
+                break;
+            }
         }
+
         if (targetIndex == -1) {
             System.out.println("User not found in the system!");
             return;
@@ -163,7 +169,8 @@ public class Main {
             System.out.println("You cannot add yourself to favorites!");
             return;
         }
-        // Check for duplicate favorites
+
+        // FIX 2: Added "Favorite_contacts[login_user_indx][j] != null &&" to prevent NullPointerException
         for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
             if (Favorite_contacts[login_user_indx][j] != null && Favorite_contacts[login_user_indx][j].equals(Phone_numbers[targetIndex])) {
                 System.out.println(User_names[targetIndex] + " is already in your favorites!");
@@ -188,21 +195,29 @@ public class Main {
         }
     }
 
-    // ==================== 6. REMOVE FAVORITE ====================
-    public static void removeFavorite(String[] Phone_numbers, String[][] Favorite_contacts, String[] User_names) {
+    // ==================== 6. REMOVE FAVORITE (FIXED TOO!) ====================
+    public static void removeFavorite(String[] Phone_numbers, String[] User_email_addresses, String[][] Favorite_contacts, String[] User_names) {
         System.out.println("\n--- Remove Favorite ---");
-        System.out.print("Enter Phone number of the favorite to remove: ");
+        System.out.print("Enter Email or Phone number of the favorite to remove: ");
         String target = input.next();
         int targetIndex = -1;
+
+        // Check both Phone and Email
         for (int i = 0; i < Phone_numbers.length; i++) {
-            if (Phone_numbers[i] != null && target.equals(Phone_numbers[i]))
+            if ((Phone_numbers[i] != null && target.equals(Phone_numbers[i])) ||
+                    (User_email_addresses[i] != null && target.equalsIgnoreCase(User_email_addresses[i]))) {
                 targetIndex = i;
+                break;
+            }
         }
+
         if (targetIndex == -1) {
             System.out.println("User not found!");
             return;
         }
+
         int removeIndex = -1;
+        // Added "!= null" check here too so removeFavorite doesn't crash!
         for (int j = 0; j < Favorite_contacts[login_user_indx].length; j++) {
             if (Favorite_contacts[login_user_indx][j] != null && Favorite_contacts[login_user_indx][j].equals(Phone_numbers[targetIndex])) {
                 removeIndex = j;
@@ -214,12 +229,12 @@ public class Main {
             System.out.println("This user is not in your favorites list.");
             return;
         }
+
         Favorite_contacts[login_user_indx][removeIndex] = null;
         // Shift remaining favorites left so there are no empty gaps in the middle
         for (int j = removeIndex; j < Favorite_contacts[login_user_indx].length - 1; j++) {
             Favorite_contacts[login_user_indx][j] = Favorite_contacts[login_user_indx][j + 1];
         }
-        //clear the final slot after shifting.
         Favorite_contacts[login_user_indx][Favorite_contacts[login_user_indx].length - 1] = null;
 
         System.out.println(User_names[targetIndex] + " has been removed from your favorites.");
@@ -709,10 +724,10 @@ public class Main {
                                 showFavorites(Favorite_contacts, User_IDs, Phone_numbers, User_email_addresses, User_names);
                                 break;
                             case 5:
-                                addFavorite(Phone_numbers, Favorite_contacts, User_names);
+                                addFavorite(Phone_numbers,User_email_addresses, Favorite_contacts, User_names);
                                 break;
                             case 6:
-                                removeFavorite(Phone_numbers, Favorite_contacts, User_names);
+                                removeFavorite(Phone_numbers,User_email_addresses, Favorite_contacts, User_names);
                                 break;
                             case 7:
                                 searchRecipient(User_IDs, User_names, User_email_addresses, Phone_numbers, Account_statuses);
