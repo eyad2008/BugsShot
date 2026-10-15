@@ -15,11 +15,8 @@ A console-based **digital wallet simulation** written in Java. Quick Pay lets an
 5. [Usage Walkthrough](#-usage-walkthrough)
 6. [System Flowcharts](#-system-flowcharts)
 7. [Data Model](#-data-model)
-8. [Sample Data](#-sample-data)
 9. [Project Structure](#-project-structure)
 10. [Business Rules](#-business-rules)
-11. [Team](#-team)
-12. [Future Improvements](#-future-improvements)
 
 ---
 
