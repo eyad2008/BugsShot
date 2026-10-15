@@ -7,21 +7,21 @@ public class Quickpay {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
-        // ===== Users data (each index = one user) =====
+      
         String[] names = {"Yousef", "Hana", "Eyad", "Marym"};
         String[] emails = {"yousef@gmail.com", "hana@gmail.com", "eyad@gmail.com", "marym@gmail.com"};
         String[] phones = {"01211223345", "01211223346", "01211223347", "01211223348"};
         double[] balances = {1000, 500, 750, 300};
         boolean[] active = {true, true, true, true};
 
-        // ===== Transactions data (each index = one transaction) =====
+       
         String[] trSender = new String[100];
         String[] trReceiver = new String[100];
         double[] trAmount = new double[100];
         String[] trStatus = new String[100];
         int trCount = 0;
 
-        // The logged in user is the first one (Yousef)
+      
         int me = 0;
         System.out.println("Logged in as: " + names[me] + " | Balance: " + balances[me] + " EGP");
 
@@ -48,7 +48,7 @@ public class Quickpay {
                 choice = 0;
             }
 
-            // ---------- 1. Search ----------
+           
             if (choice == 1) {
                 System.out.print("Enter email or phone to search: ");
                 String search = input.nextLine().trim();
@@ -78,7 +78,7 @@ public class Quickpay {
                 }
             }
 
-            // ---------- 2. Transfer ----------
+            
             else if (choice == 2) {
                 System.out.println("\n--- Transfer Money ---");
                 System.out.print("Enter recipient's Email or Phone: ");
@@ -108,7 +108,7 @@ public class Quickpay {
                     if (!validNumber) {
                         System.out.println("[Error] Please enter a valid amount.");
                     } else {
-                        // Check all the problems one by one
+                       
                         String error = "";
 
                         if (to == me) {
@@ -124,7 +124,7 @@ public class Quickpay {
                         }
 
                         if (!error.equals("")) {
-                            // Failed transaction
+                            
                             if (trCount < 100) {
                                 trSender[trCount] = emails[me];
                                 trReceiver[trCount] = emails[to];
@@ -134,7 +134,7 @@ public class Quickpay {
                             }
                             System.out.println("[Error] " + error);
                         } else {
-                            // Successful transaction
+                           
                             balances[me] = balances[me] - amount;
                             balances[to] = balances[to] + amount;
 
@@ -152,7 +152,7 @@ public class Quickpay {
                 }
             }
 
-            // ---------- 3. History ----------
+          
             else if (choice == 3) {
                 System.out.println("\n--- Your Transaction History ---");
                 int shown = 0;
@@ -178,12 +178,11 @@ public class Quickpay {
                 }
             }
 
-            // ---------- 4. Exit ----------
+           
             else if (choice == 4) {
                 System.out.println("Exiting...");
             }
 
-            // ---------- Wrong input ----------
             else {
                 System.out.println("Invalid choice!");
             }
