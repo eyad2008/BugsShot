@@ -77,7 +77,14 @@ public class Main {
                     failed_transactions++;
             }
         }
-        System.out.println("Total number of registered users: " + User_names.length + "\nNumber of active users: " + Active_Users + "\nNumber of blocked accounts: " + blocked_accounts + "\nTotal number of successful transactions: " + successful_transactions + "\nTotal number of failed transactions: " + failed_transactions + "\nTotal amount of successful transfers: " + amountofsuccessfultransfers);
+        int Users_count=0;
+        for(int i=0;i<User_names.length;i++){
+            if(User_names[i]!=null){
+                Users_count++;
+            }
+        }
+
+        System.out.println("Total number of registered users: " + Users_count + "\nNumber of active users: " + Active_Users + "\nNumber of blocked accounts: " + blocked_accounts + "\nTotal number of successful transactions: " + successful_transactions + "\nTotal number of failed transactions: " + failed_transactions + "\nTotal amount of successful transfers: " + amountofsuccessfultransfers);
     }
 
     public static int searchUser(String Search_User, int[] User_IDs, String[] User_names, String[] User_email_addresses, String[] Phone_numbers) {
@@ -328,7 +335,7 @@ public class Main {
             System.out.println("1. Update Name only");
             System.out.println("2. Update Email address only");
             System.out.println("3. Update Phone number only");
-            System.out.println("4. Update Password only");
+            System.out.println("4. Update ID only");
             System.out.print("Choose what you want to update: ");
 
             int choice = input.nextInt();
@@ -367,14 +374,10 @@ public class Main {
                     break;
 
                 case 4:
-                    System.out.print("Enter new Password: ");
-                    String newPassword = input.next();
-                    if (newPassword.length() >= 4) {
-                        User_passwords[update_index] = newPassword;
-                        System.out.println("Password updated successfully!");
-                    } else {
-                        System.out.println("Invalid Password! Must be at least 4 characters.");
-                    }
+                    System.out.print("Enter new ID: ");
+                    int newid= input.nextInt();
+                    User_IDs[update_index] = newid;
+                    System.out.println("Password updated successfully!");
                     break;
 
                 default:
