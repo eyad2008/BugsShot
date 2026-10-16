@@ -410,7 +410,7 @@ public class Main {
                     int newid_found=searchUser(String.valueOf(newid),  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
                     if(newid_found==-1) {
                         User_IDs[update_index] = newid;
-                        System.out.println("Password updated successfully!");
+                        System.out.println("ID updated successfully!");
                     }else System.out.println("This ID is already token! ");
                     break;
 
