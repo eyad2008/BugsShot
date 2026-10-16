@@ -93,6 +93,7 @@ public class Main {
             if (User_names[i] != null)
                 if (Search_User.equals(String.valueOf(User_IDs[i])) || Search_User.equalsIgnoreCase(User_names[i]) || Search_User.equals(User_email_addresses[i]) || Search_User.equals(Phone_numbers[i])) {
                     search_index = i;
+                    break;
                 }
         }
         return search_index;
@@ -111,6 +112,7 @@ public class Main {
             if (User_names[i] != null)
                 if (specific_user.equals(String.valueOf(User_IDs[i])) || specific_user.equalsIgnoreCase(User_names[i]) || specific_user.equals(User_email_addresses[i]) || specific_user.equals(Phone_numbers[i])) {
                     search_index = i;
+                    break;
                 }
         }
         return search_index;
@@ -241,56 +243,64 @@ public class Main {
     }
 
     // ==================== 9. UPDATE PROFILE ====================
-    public static void updateProfile(String[] User_names, String[] User_email_addresses, String[] Phone_numbers, String[] User_passwords) {
+    public static void updateProfile(int[]User_IDs,String[] User_names, String[] User_email_addresses, String[] Phone_numbers, String[] User_passwords) {
         System.out.println("\n--- Update Profile ---");
         System.out.println("1. Update Name");
         System.out.println("2. Update Email address");
         System.out.println("3. Update Phone number");
         System.out.println("4. Update Password");
         System.out.print("Choose an option: ");
-        int choice = input.nextInt();
+        String choice = input.next();
         switch (choice) {
-            case 1:
+            case "1":
                 System.out.print("Enter new Name: ");
                 String newName = input.next();
+                int newName_found=searchUser(newName,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                if(newName_found==-1) {
                 if (newName.length() >= 3) {
                     User_names[login_user_indx] = newName;
                     System.out.println("Name updated successfully!");
-                } else {
+                } else
                     System.out.println("Invalid Name! Must be at least 3 characters.");
-                }
+                }else System.out.println("This name is already token!");
                 break;
-            case 2:
+            case "2":
                 System.out.print("Enter new Email address: ");
                 String newEmail = input.next();
-                if (newEmail.contains("@") && newEmail.contains(".")) {
-                    User_email_addresses[login_user_indx] = newEmail;
-                    System.out.println("Email address updated successfully!");
-                } else {
-                    System.out.println("Invalid Email format!");
-                }
+                int newEmail_found=searchUser(newEmail,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                if(newEmail_found==-1) {
+                    if (newEmail.contains("@") && newEmail.contains(".")) {
+                        User_email_addresses[login_user_indx] = newEmail;
+                        System.out.println("Email address updated successfully!");
+                    } else
+                        System.out.println("Invalid Email format!");
+                }else System.out.println("This email already token ! ");
                 break;
 
-            case 3:
+            case "3":
                 System.out.print("Enter new Phone number: ");
                 String newPhone = input.next();
-                if (newPhone.length() == 11) {
-                    Phone_numbers[login_user_indx] = newPhone;
-                    System.out.println("Phone number updated successfully!");
-                } else {
-                    System.out.println("Invalid Phone number! Must be 11 digits.");
-                }
+                int newPhone_found=searchUser(newPhone,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                if(newPhone_found==-1) {
+                    if (newPhone.length() == 11) {
+                        Phone_numbers[login_user_indx] = newPhone;
+                        System.out.println("Phone number updated successfully!");
+                    } else
+                        System.out.println("Invalid Phone number! Must be 11 digits.");
+                }else System.out.println("this number already token !");
                 break;
 
-            case 4:
+            case "4":
                 System.out.print("Enter new Password: ");
                 String newPassword = input.next();
-                if (newPassword.length() >= 4) {
-                    User_passwords[login_user_indx] = newPassword;
-                    System.out.println("Password updated successfully!");
-                } else {
-                    System.out.println("Invalid Password! Must be at least 4 characters.");
-                }
+                int newPassword_found=searchUser(newPassword,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                if(newPassword_found==-1) {
+                    if (newPassword.length() >= 4) {
+                        User_passwords[login_user_indx] = newPassword;
+                        System.out.println("Password updated successfully!");
+                    } else
+                        System.out.println("Invalid Password! Must be at least 4 characters.");
+                }else System.out.println("This Password is week! ");
                 break;
 
             default:
@@ -353,46 +363,55 @@ public class Main {
             System.out.println("4. Update ID only");
             System.out.print("Choose what you want to update: ");
 
-            int choice = input.nextInt();
+            String choice = input.next();
             switch (choice) {
-                case 1:
+                case "1":
                     System.out.print("Enter new Name: ");
                     String newName = input.next();
-                    if (newName.length() >= 3) {
-                        User_names[update_index] = newName;
-                        System.out.println("Name updated successfully!");
-                    } else {
-                        System.out.println("Invalid Name! Must be at least 3 characters.");
-                    }
+                    int newName_found=searchUser(newName,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                    if(newName_found==-1) {
+                        if (newName.length() >= 3) {
+                            User_names[update_index] = newName;
+                            System.out.println("Name updated successfully!");
+                        } else
+                            System.out.println("Invalid Name! Must be at least 3 characters.");
+                    }else System.out.println("This name is already token!");
                     break;
 
-                case 2:
+                case "2":
                     System.out.print("Enter new Email address: ");
                     String newEmail = input.next();
-                    if (newEmail.contains("@") && newEmail.contains(".")) {
-                        User_email_addresses[update_index] = newEmail;
-                        System.out.println("Email address updated successfully!");
-                    } else {
-                        System.out.println("Invalid Email format!");
-                    }
+                    int newEmail_found=searchUser(newEmail,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                    if(newEmail_found==-1) {
+                        if (newEmail.contains("@") && newEmail.contains(".")) {
+                            User_email_addresses[update_index] = newEmail;
+                            System.out.println("Email address updated successfully!");
+                        } else
+                            System.out.println("Invalid Email format!");
+                    }else System.out.println("This email already token ! ");
                     break;
 
-                case 3:
+                case "3":
                     System.out.print("Enter new Phone number: ");
                     String newPhone = input.next();
-                    if (newPhone.length() == 11) {
-                        Phone_numbers[update_index] = newPhone;
-                        System.out.println("Phone number updated successfully!");
-                    } else {
-                        System.out.println("Invalid Phone number! Must be 11 digits.");
-                    }
+                    int newPhone_found=searchUser(newPhone,  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                    if(newPhone_found==-1) {
+                        if (newPhone.length() == 11) {
+                            Phone_numbers[update_index] = newPhone;
+                            System.out.println("Phone number updated successfully!");
+                        } else
+                            System.out.println("Invalid Phone number! Must be 11 digits.");
+                    }else System.out.println("this number already token !");
                     break;
 
-                case 4:
+                case "4":
                     System.out.print("Enter new ID: ");
                     int newid= input.nextInt();
-                    User_IDs[update_index] = newid;
-                    System.out.println("Password updated successfully!");
+                    int newid_found=searchUser(String.valueOf(newid),  User_IDs,  User_names, User_email_addresses,  Phone_numbers);
+                    if(newid_found==-1) {
+                        User_IDs[update_index] = newid;
+                        System.out.println("Password updated successfully!");
+                    }else System.out.println("This ID is already token! ");
                     break;
 
                 default:
@@ -736,7 +755,7 @@ public class Main {
                                 viewProfile(User_IDs, User_names, User_email_addresses, Phone_numbers, Balances, Account_statuses);
                                 break;
                             case "9":
-                                updateProfile(User_names, User_email_addresses, Phone_numbers, User_passwords);
+                                updateProfile(User_IDs,User_names, User_email_addresses, Phone_numbers, User_passwords);
                                 break;
                             case "10":
                                 //log out;
